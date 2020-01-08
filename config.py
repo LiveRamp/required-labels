@@ -18,9 +18,9 @@ class ConfigException(Exception):
 
 def generate_config():
     config = {}
-    conf = ConfigParser()
 
     if os.path.exists(_get_config_file()):
+        conf = ConfigParser()
         conf.read(_get_config_file())
         config['required_any'] = conf.get('Labels', 'required-labels-any')
         config['required_all'] = conf.get('Labels', 'required-labels-all')
