@@ -43,10 +43,12 @@ def generate_config():
         config[label] = config[label].split(',') if config[label] else None
     return config
 
+
 def _get_config_file():
     if 'CONFIG_FILE' in os.environ:
         return os.environ['CONFIG_FILE']
     return os.path.join(APP_BASEDIR, CONFIG_FILENAME)
+
 
 CONFIG = generate_config()
 
