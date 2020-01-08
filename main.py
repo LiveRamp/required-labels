@@ -15,7 +15,12 @@ def main():
         pull_request = PullRequest(event_json)
         print("Checking labels for PR {}".format(pull_request.issue_url))
         status_code = pull_request.compute_and_post_status(
-            CONFIG['required_any'], CONFIG['required_all'], CONFIG['banned'])
+            CONFIG['required_any'], 
+            CONFIG['required_all'], 
+            CONFIG['banned'], 
+            CONFIG['github_status_text'],
+            CONFIG['github_status_url'],
+            )
         return str(status_code)
     else:
         return 'No label check needed'
@@ -27,9 +32,11 @@ def config():
     Any: {}<br/>
     All: {}<br/>
     Banned: {}<br/>
+    GitHub Status Text: {}<br/>
     """.format(CONFIG['required_any'],
                CONFIG['required_all'],
-               CONFIG['banned'])
+               CONFIG['banned'],
+               CONFIG['github_status_text'])
 
 
 def event_warrants_label_check(pr_event_json):
