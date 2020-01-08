@@ -11,6 +11,7 @@ APP_NAME = "liveramp/required-labels"
 
 CONFIG_FILENAME = "custom.conf"
 
+
 class ConfigException(Exception):
     pass
 
