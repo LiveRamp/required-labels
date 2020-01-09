@@ -53,7 +53,7 @@ class PullRequest:
             "state": "success" if passes_label_requirements else "failure",
             "target_url": status_target_url,
             "description": description,
-            "context": "compliance/required-labels",
+            "context": APP_NAME,
         }
         return json.dumps(response_json)
 
