@@ -9,3 +9,5 @@ banned-labels:
 user: someuser
 password:
 token:
+status_check_text: Label requirements not satisfied
+status_check_url: https://somewhere_with_more_information.com

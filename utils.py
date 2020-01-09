@@ -32,8 +32,8 @@ class PullRequest:
     def label_url(self):
         return "{}/labels".format(self.issue_url)
 
-    def compute_and_post_status(self, required_any, required_all, banned):
-        return self.post_status(self.create_status_json(required_any, required_all, banned))
+    def compute_and_post_status(self, required_any, required_all, banned, status_text, status_target_url):
+        return self.post_status(self.create_status_json(required_any, required_all, banned, status_text, status_target_url))
 
     def post_status(self, status_json):
         response = self._session.post(self.statuses_url, data=status_json)
@@ -43,15 +43,15 @@ class PullRequest:
     def statuses_url(self):
         return self.event['pull_request']['statuses_url']
 
-    def create_status_json(self, required_any, required_all, banned):
+    def create_status_json(self, required_any, required_all, banned, status_text, status_target_url):
         passes_label_requirements = self.validate_labels(required_any, required_all, banned)
         if passes_label_requirements:
             description = "Label requirements satisfied."
         else:
-            description = "Label requirements not satisfied."
+            description = status_text
         response_json = {
             "state": "success" if passes_label_requirements else "failure",
-            "target_url": "",
+            "target_url": status_target_url,
             "description": description,
             "context": APP_NAME,
         }

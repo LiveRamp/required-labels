@@ -7,8 +7,11 @@ banned-labels:
 [GitHub]
 # The authentication method to use
 # supports both token or user/password based authentication
-# Requires push access to the repository in which Webhood is confgured
+# Requires push access to the repository in which Webhook is confgured
 token:
 # OR
 user:
 password:
+# Customize status checks display
+status_check_text: Label requirements not satisfied
+status_check_url: 

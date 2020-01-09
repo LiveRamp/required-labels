@@ -7,7 +7,7 @@ from exceptions import NoGitHubTokenException
 
 
 APP_BASEDIR = Path(os.path.abspath(__file__)).parent
-APP_NAME = "dimagi/required-labels"
+APP_NAME = "compliance/required-labels"
 
 CONFIG_FILENAME = "custom.conf"
 
@@ -18,22 +18,27 @@ class ConfigException(Exception):
 
 def generate_config():
     config = {}
-    conf = ConfigParser()
-    conf.read(_get_config_file())
-    try:
+
+    if os.path.exists(_get_config_file()):
+        conf = ConfigParser()
+        conf.read(_get_config_file())
         config['required_any'] = conf.get('Labels', 'required-labels-any')
         config['required_all'] = conf.get('Labels', 'required-labels-all')
         config['banned'] = conf.get('Labels', 'banned-labels')
         config['github_user'] = conf.get('GitHub', 'user')
         config['github_pw'] = conf.get('GitHub', 'password')
         config['github_token'] = conf.get('GitHub', 'token')
-    except NoSectionError:
+        config['github_status_text'] = conf.get('GitHub', 'status_check_text')
+        config['github_status_url'] = conf.get('GitHub', 'status_check_url')
+    else:
         config['required_any'] = os.environ.get('REQUIRED_LABELS_ANY', None)
         config['required_all'] = os.environ.get('REQUIRED_LABELS_ALL', None)
         config['banned'] = os.environ.get('BANNED_LABELS', None)
         config['github_user'] = os.environ.get('GITHUB_USER', None)
         config['github_pw'] = os.environ.get('GITHUB_PW', None)
         config['github_token'] = os.environ.get('GITHUB_TOKEN', None)
+        config['github_status_text'] = os.environ.get('GITHUB_STATUS_TEXT', 'Label requirements not satisfied.')
+        config['github_status_url'] = os.environ.get('GITHUB_STATUS_URL', '')
 
     for label in ['required_any', 'required_all', 'banned']:
         config[label] = config[label].split(',') if config[label] else None

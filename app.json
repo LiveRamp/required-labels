@@ -1,7 +1,7 @@
 {
     "name": "required-labels",
     "description": "Automated label checking for github pull requests",
-    "repository": "https://github.com/dimagi/required-labels",
+    "repository": "https://github.com/LiveRamp/required-labels",
     "keywords": [
         "github",
         "labels",
@@ -30,6 +30,14 @@
         },
         "GITHUB_PW": {
             "description": "The password for the github user that will post the status",
+            "required": false
+        },
+        "GITHUB_STATUS_TEXT": {
+            "description": "Text of status posted to the PR when the label requirements have not been satisfied",
+            "required": false
+        },
+        "GITHUB_STATUS_URL": {
+            "description": "URL of status posted to the PR useful for documentation of these requirements",
             "required": false
         }
     },
