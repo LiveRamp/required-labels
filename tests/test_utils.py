@@ -1,10 +1,11 @@
+import unittest
 from unittest.mock import patch, MagicMock
 
 from exceptions import NoGitHubTokenException
 from utils import PullRequest
 
 
-class TestPullRequest():
+class TestPullRequest(unittest.TestCase):
     @patch('utils.Session', MagicMock())
     @patch('utils.get_credentials')
     @patch('utils.get_token')
@@ -26,3 +27,11 @@ class TestPullRequest():
         PullRequest({'pull_request': {'issue_url': 'https/github/orga/url/issueurl'}})
         get_token.assert_called_once()
         get_credentials.assert_called_once()
+
+    @patch('utils.Session', MagicMock())
+    @patch('utils.get_proxy')
+    def test_it_calls_proxy_config_during_init(self,
+                                               get_proxy):
+        get_proxy.return_value = 'https://ghproxy.github.com/api/v3/'
+        pr = PullRequest({'pull_request': {'issue_url': 'https://api.github.com/orga/url/issueurl'}})
+        assert pr.github_proxy == 'https://ghproxy.github.com/api/v3/'

@@ -28,6 +28,7 @@ def generate_config():
         config['github_user'] = conf.get('GitHub', 'user')
         config['github_pw'] = conf.get('GitHub', 'password')
         config['github_token'] = conf.get('GitHub', 'token')
+        config['github_proxy'] = conf.get('GitHub', 'proxy', fallback=None)
         config['github_status_text'] = conf.get('GitHub', 'status_check_text')
         config['github_status_url'] = conf.get('GitHub', 'status_check_url')
     else:
@@ -37,6 +38,7 @@ def generate_config():
         config['github_user'] = os.environ.get('GITHUB_USER', None)
         config['github_pw'] = os.environ.get('GITHUB_PW', None)
         config['github_token'] = os.environ.get('GITHUB_TOKEN', None)
+        config['github_proxy'] = os.environ.get('GITHUB_PROXY', None)
         config['github_status_text'] = os.environ.get('GITHUB_STATUS_TEXT', 'Label requirements not satisfied.')
         config['github_status_url'] = os.environ.get('GITHUB_STATUS_URL', '')
 
@@ -64,6 +66,10 @@ def get_credentials():
     if CONFIG['github_user'] == '' or CONFIG['github_pw'] == '':
         return None
     return CONFIG['github_user'], CONFIG['github_pw']
+
+
+def get_proxy():
+    return CONFIG['github_proxy']
 
 
 UNIT_TESTING = any([arg for arg in sys.argv if 'test' in arg])
