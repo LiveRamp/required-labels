@@ -28,7 +28,7 @@ def generate_config():
         config['github_user'] = conf.get('GitHub', 'user')
         config['github_pw'] = conf.get('GitHub', 'password')
         config['github_token'] = conf.get('GitHub', 'token')
-        config['github_proxy'] = conf.get('GitHub', 'proxy')
+        config['github_proxy'] = conf.get('GitHub', 'proxy', fallback=None)
         config['github_status_text'] = conf.get('GitHub', 'status_check_text')
         config['github_status_url'] = conf.get('GitHub', 'status_check_url')
     else:
@@ -69,8 +69,6 @@ def get_credentials():
 
 
 def get_proxy():
-    if CONFIG['github_proxy'] == '':
-        return None
     return CONFIG['github_proxy']
 
 
