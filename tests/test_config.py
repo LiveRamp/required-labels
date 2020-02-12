@@ -35,10 +35,12 @@ class TestGenerateConfig(unittest.TestCase):
         with patch.dict(os.environ, {'CONFIG_FILE': fixture_config}):
             config = generate_config()
             assert config['github_user'] == 'someuser'
+            assert config['github_proxy'] == 'https://ghproxy.github.com'
             assert config['github_status_text'] == "Label requirements not satisfied"
             assert config['github_status_url'] == "https://somewhere_with_more_information.com"
     
     def test_it_source_config_from_environment(self):
-        with patch.dict(os.environ, {'GITHUB_USER': 'ghuser'}):
+        with patch.dict(os.environ, {'GITHUB_USER': 'ghuser', 'GITHUB_PROXY': 'https://ghproxy.github.com'}):
             config = generate_config()
             assert config['github_user'] == 'ghuser'
+            assert config['github_proxy'] == 'https://ghproxy.github.com'

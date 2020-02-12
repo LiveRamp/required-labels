@@ -1,10 +1,11 @@
+import unittest
 from unittest.mock import patch, MagicMock
 
 from exceptions import NoGitHubTokenException
 from utils import PullRequest
 
 
-class TestPullRequest():
+class TestPullRequest(unittest.TestCase):
     @patch('utils.Session', MagicMock())
     @patch('utils.get_credentials')
     @patch('utils.get_token')

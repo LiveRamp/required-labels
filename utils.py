@@ -2,13 +2,14 @@ import json
 from requests import Session
 
 from exceptions import NoGitHubTokenException
-from config import get_token, get_credentials, APP_NAME
+from config import get_token, get_credentials, get_proxy, APP_NAME
 
 
 class PullRequest:
     def __init__(self, event=None):
         self.event = event
         self._session = Session()
+        self.github_proxy = get_proxy()
         try:
             self._session.headers.update({"Authorization": f"token {get_token()}"})
         except NoGitHubTokenException:
@@ -41,6 +42,8 @@ class PullRequest:
 
     @property
     def statuses_url(self):
+        if self.github_proxy is not None:
+           return self.event['pull_request']['statuses_url'].replace("https://api.github.com/", self.github_proxy)
         return self.event['pull_request']['statuses_url']
 
     def create_status_json(self, required_any, required_all, banned, status_text, status_target_url):
