@@ -31,6 +31,8 @@ class PullRequest:
 
     @property
     def label_url(self):
+        if self.github_proxy is not None:
+           return "{}/labels".format(self.issue_url).replace("https://api.github.com/", self.github_proxy)
         return "{}/labels".format(self.issue_url)
 
     def compute_and_post_status(self, required_any, required_all, banned, status_text, status_target_url):
