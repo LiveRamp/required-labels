@@ -1,0 +1,11 @@
+# BEGIN TERRAFORM MANAGED BLOCK
+"apiVersion": "backstage.io/v1alpha1"
+"kind": "Location"
+"metadata":
+  "annotations":
+    "github.com/project-slug": "LiveRamp/required-labels"
+  "description": "\U0001F3F7 Automated label checking for GitHub pull requests"
+  "name": "required-labels"
+  "tags": []
+"spec": {}
+# END TERRAFORM MANAGED BLOCK
