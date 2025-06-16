@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, request
+from flask import Flask, request, jsonify
 
 from utils import PullRequest
 from config import CONFIG
