@@ -26,6 +26,16 @@ def main():
         return 'No label check needed'
 
 
+@app.route('/health', methods=["GET"])
+def health():
+    """Health check endpoint"""
+    return jsonify({
+        'status': 'healthy',
+        'service': 'required-labels',
+        'message': 'Service is running'
+    }), 200
+
+
 @app.route('/config', methods=["GET"])
 def config():
     return """
