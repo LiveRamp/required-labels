@@ -45,11 +45,12 @@ def main():
             logger.info(f"[{request_id}] Checking labels for PR {pull_request.issue_url}")
             
             status_code = pull_request.compute_and_post_status(
-                CONFIG['required_any'], 
-                CONFIG['required_all'], 
-                CONFIG['banned'], 
+                CONFIG['required_any'],
+                CONFIG['required_all'],
+                CONFIG['banned'],
                 CONFIG['github_status_text'],
                 CONFIG['github_status_url'],
+                required_env=CONFIG['required_env'],
             )
             
             duration = (datetime.now() - start_time).total_seconds()
@@ -132,6 +133,7 @@ def config():
             'required_any': CONFIG.get('required_any', []),
             'required_all': CONFIG.get('required_all', []),
             'banned': CONFIG.get('banned', []),
+            'required_env': CONFIG.get('required_env', []),
             'github_status_text': CONFIG.get('github_status_text', ''),
             'github_user_configured': bool(CONFIG.get('github_user')),
             'github_token_configured': bool(CONFIG.get('github_token')),
@@ -151,7 +153,7 @@ def test_configuration():
         issues = []
         
         # Check label configuration
-        if not any([CONFIG.get('required_any'), CONFIG.get('required_all'), CONFIG.get('banned')]):
+        if not any([CONFIG.get('required_any'), CONFIG.get('required_all'), CONFIG.get('banned'), CONFIG.get('required_env')]):
             issues.append("No label requirements configured")
             
         # Check GitHub credentials

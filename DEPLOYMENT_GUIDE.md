@@ -33,6 +33,7 @@ export GITHUB_TOKEN="your_github_token"
 export REQUIRED_LABELS_ANY="bug,feature,enhancement"
 export REQUIRED_LABELS_ALL="reviewed"
 export BANNED_LABELS="wip,draft"
+export REQUIRED_ENV_LABELS="Prod,Non-prod"
 ```
 
 ### 3. Run the Application
@@ -165,6 +166,7 @@ curl -H "Authorization: token YOUR_TOKEN" https://api.github.com/rate_limit
 REQUIRED_LABELS_ANY="bug,feature,enhancement"  # At least one required
 REQUIRED_LABELS_ALL="reviewed,tested"          # All required
 BANNED_LABELS="wip,draft,do-not-merge"         # None allowed
+REQUIRED_ENV_LABELS="Prod,Non-prod"            # At least one required (independent group)
 ```
 
 ### GitHub Status Configuration

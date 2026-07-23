@@ -138,14 +138,15 @@ class PullRequest:
             return base_url.replace("https://api.github.com/", self.github_proxy)
         return base_url
 
-    def compute_and_post_status(self, required_any, required_all, banned, status_text, status_target_url):
+    def compute_and_post_status(self, required_any, required_all, banned, status_text, status_target_url, required_env=None):
         """Compute status and post with enhanced logging"""
         logger.info(f"[{self.request_id}] Computing and posting status")
         logger.info(f"[{self.request_id}] Required any: {required_any}")
         logger.info(f"[{self.request_id}] Required all: {required_all}")
         logger.info(f"[{self.request_id}] Banned: {banned}")
-        
-        return self.post_status(self.create_status_json(required_any, required_all, banned, status_text, status_target_url))
+        logger.info(f"[{self.request_id}] Required env: {required_env}")
+
+        return self.post_status(self.create_status_json(required_any, required_all, banned, status_text, status_target_url, required_env))
 
     def post_status(self, status_json):
         """Post status with comprehensive error handling and logging"""
@@ -193,11 +194,11 @@ class PullRequest:
             return base_url.replace("https://api.github.com/", self.github_proxy)
         return base_url
 
-    def create_status_json(self, required_any, required_all, banned, status_text, status_target_url):
+    def create_status_json(self, required_any, required_all, banned, status_text, status_target_url, required_env=None):
         """Create status JSON with enhanced logging"""
         logger.info(f"[{self.request_id}] Creating status JSON")
-        
-        passes_label_requirements = self.validate_labels(required_any, required_all, banned)
+
+        passes_label_requirements = self.validate_labels(required_any, required_all, banned, required_env)
         
         if passes_label_requirements:
             description = "Label requirements satisfied."
@@ -218,7 +219,7 @@ class PullRequest:
         
         return json.dumps(response_json)
 
-    def validate_labels(self, required_any, required_all, banned):
+    def validate_labels(self, required_any, required_all, banned, required_env=None):
         """Validate labels with enhanced logging and error handling"""
         logger.info(f"[{self.request_id}] Validating labels")
         
@@ -238,7 +239,15 @@ class PullRequest:
                            f"(need one of: {required_any})")
                 if not has_required_any:
                     return False
-            
+
+            # Check required_env (second independent any-of group)
+            if required_env is not None:
+                has_required_env = any(l in required_env for l in labels_list)
+                logger.info(f"[{self.request_id}] Required env check: {has_required_env} "
+                           f"(need one of: {required_env})")
+                if not has_required_env:
+                    return False
+
             # Check required_all
             if required_all is not None:
                 missing_required = [l for l in required_all if l not in labels_list]

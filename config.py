@@ -25,6 +25,7 @@ def generate_config():
         config['required_any'] = conf.get('Labels', 'required-labels-any')
         config['required_all'] = conf.get('Labels', 'required-labels-all')
         config['banned'] = conf.get('Labels', 'banned-labels')
+        config['required_env'] = conf.get('Labels', 'required-env-labels', fallback=None)
         config['github_user'] = conf.get('GitHub', 'user')
         config['github_pw'] = conf.get('GitHub', 'password')
         config['github_token'] = conf.get('GitHub', 'token')
@@ -35,6 +36,7 @@ def generate_config():
         config['required_any'] = os.environ.get('REQUIRED_LABELS_ANY', None)
         config['required_all'] = os.environ.get('REQUIRED_LABELS_ALL', None)
         config['banned'] = os.environ.get('BANNED_LABELS', None)
+        config['required_env'] = os.environ.get('REQUIRED_ENV_LABELS', None)
         config['github_user'] = os.environ.get('GITHUB_USER', None)
         config['github_pw'] = os.environ.get('GITHUB_PW', None)
         config['github_token'] = os.environ.get('GITHUB_TOKEN', None)
@@ -42,7 +44,7 @@ def generate_config():
         config['github_status_text'] = os.environ.get('GITHUB_STATUS_TEXT', 'Label requirements not satisfied.')
         config['github_status_url'] = os.environ.get('GITHUB_STATUS_URL', '')
 
-    for label in ['required_any', 'required_all', 'banned']:
+    for label in ['required_any', 'required_all', 'banned', 'required_env']:
         config[label] = config[label].split(',') if config[label] else None
     return config
 
@@ -77,7 +79,7 @@ UNIT_TESTING = any([arg for arg in sys.argv if 'test' in arg])
 
 if not UNIT_TESTING:
     labels_configured = any([CONFIG['required_any'], CONFIG['required_all'],
-                             CONFIG['banned']])
+                             CONFIG['banned'], CONFIG['required_env']])
     credentials_configured = any([all([CONFIG['github_pw'], CONFIG['github_user']]),
                                   CONFIG['github_token']])
     if not labels_configured or not credentials_configured:
