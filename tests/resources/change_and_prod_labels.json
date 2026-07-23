@@ -1,0 +1,16 @@
+[
+  {
+    "id": 200000001,
+    "url": "https://api.github.com/repos/LiveRamp/example/labels/change%2Fmajor",
+    "name": "change/major",
+    "color": "d93f0b",
+    "default": false
+  },
+  {
+    "id": 200000002,
+    "url": "https://api.github.com/repos/LiveRamp/example/labels/Prod",
+    "name": "Prod",
+    "color": "0e8a16",
+    "default": false
+  }
+]

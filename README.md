@@ -40,6 +40,7 @@ Set up the required labels (comma separated):
 - `REQUIRED_LABELS_ANY`: At least one of these labels should be present on all PRs
 - `REQUIRED_LABELS_ALL`: All of these labels must be present on all PRs
 - `BANNED_LABELS`: None of these labels can be present on all PRs
+- `REQUIRED_ENV_LABELS`: A second, independent "any-of" group. At least one of these labels must be present on all PRs, in addition to satisfying `REQUIRED_LABELS_ANY` (e.g. `Prod,Non-prod`)
 
 Enter the credentials:
 

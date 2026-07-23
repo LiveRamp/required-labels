@@ -3,6 +3,9 @@
 required-labels-any:
 required-labels-all:
 banned-labels:
+# required-env-labels: a second, independent "any-of" group. A PR must carry at least one of these
+# labels in addition to satisfying required-labels-any (e.g. Prod,Non-prod).
+required-env-labels:
 
 [GitHub]
 # The authentication method to use
